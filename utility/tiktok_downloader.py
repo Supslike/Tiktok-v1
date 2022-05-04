@@ -21,12 +21,12 @@ class TikTok():
     downloader.options = chrome_options
     downloader.driver = webdriver.Chrome(executable_path="chromedriver",options=downloader.options)
     downloader.driver.get("https://snaptik.app/en")
-    
-  def _reset_browser(downloader):
+  
+  def reset_browser(downloader):
     downloader.driver.quit()
     downloader.driver = webdriver.Chrome(executable_path="chromedriver",options=downloader.options)
     downloader.driver.get("https://snaptik.app/en")
-    
+        
   def download_video(downloader, url):
     try: 
       search_button = WebDriverWait(downloader.driver, 60).until(EC.presence_of_element_located((By.XPATH, '/html/body/main/section[1]/div[3]/div/div/form/div[2]/input[1]')))
@@ -45,19 +45,19 @@ class TikTok():
       print("RETRYING...")
       downloader.recursion_method += 1
       if downloader.recursion_method == 10:
-        downloader._reset_browser()
+        downloader.reset_browser()
         downloader.recursion_method = 0
         return None
-      downloader._reset_browser()
+      downloader.reset_browser()
       url = downloader.download_video(url) 
     except Exception as e:
       print("RETRYING...")
       downloader.recursion_method += 1
       print(e)
       if downloader.recursion_method == 10:
-        downloader._reset_browser()
+        downloader.reset_browser()
         downloader.recursion_method = 0
         return None
-      downloader._reset_browser()
+      downloader.reset_browser()
       url = downloader.download_video(url)
     return url
